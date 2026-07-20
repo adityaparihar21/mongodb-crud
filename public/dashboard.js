@@ -199,7 +199,7 @@ function renderProductsTable(productsToRender) {
         <span class="badge-category">${escapeHTML(product.category)}</span>
       </td>
       <td>
-        <span class="prod-price">$${Number(product.price).toFixed(2)}</span>
+        <span class="prod-price">₹${Number(product.price).toFixed(2)}</span>
       </td>
       <td>
         <span class="stock-pill ${stockClass}">${stockText}</span>
@@ -224,7 +224,7 @@ function updateStats(productsList) {
   statTotalProducts.textContent = productsList.length;
   
   const totalValue = productsList.reduce((acc, curr) => acc + (curr.price * curr.stock), 0);
-  statInventoryValue.textContent = `$${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  statInventoryValue.textContent = `₹${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   
   const outOfStock = productsList.filter(p => p.stock === 0).length;
   statOutOfStock.textContent = outOfStock;
