@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   searchInput.addEventListener('input', handleSearch);
   
   // Debug listeners
-  btnTestInvalidId.addEventListener('click', testInvalidId);
-  btnTestMissingFields.addEventListener('click', testMissingFields);
+  if (btnTestInvalidId) btnTestInvalidId.addEventListener('click', testInvalidId);
+  if (btnTestMissingFields) btnTestMissingFields.addEventListener('click', testMissingFields);
 
   // Theme Toggle Logic
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
