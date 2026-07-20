@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cancelEditBtn.addEventListener('click', resetForm);
   seedBtn.addEventListener('click', seedSampleData);
   refreshBtn.addEventListener('click', () => fetchProducts());
-  clearLogsBtn.addEventListener('click', clearLogs);
+  if (clearLogsBtn) clearLogsBtn.addEventListener('click', clearLogs);
   searchInput.addEventListener('input', handleSearch);
   
   // Debug listeners
@@ -109,6 +109,7 @@ function logTraffic(method, url, status, requestBody, responseBody) {
 }
 
 function renderLogs() {
+  if (!consoleLogs) return;
   if (logs.length === 0) {
     consoleLogs.innerHTML = '// Awaiting API interactions...\n// Select, edit, add, or delete products above to inspect actual HTTP queries.';
     return;

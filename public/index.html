@@ -30,10 +30,6 @@
         <button id="theme-toggle-btn" class="btn-theme-toggle">
           <i id="theme-icon" class="fa-solid fa-sun"></i> <span>Light Theme</span>
         </button>
-        <div class="status-pill status-online">
-          <span class="pulse-dot"></span>
-          <span class="status-text">Server: Online</span>
-        </div>
         <div class="status-pill db-name">
           <i class="fa-solid fa-database"></i>
           <span>product_inventory</span>
@@ -177,25 +173,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- Request/Response Log Inspector -->
-        <div class="glass-card terminal-card">
-          <div class="terminal-header">
-            <div class="terminal-controls">
-              <span class="control close"></span>
-              <span class="control minimize"></span>
-              <span class="control expand"></span>
-            </div>
-            <div class="terminal-title">API Traffic Logs (Postman Console)</div>
-            <button id="clear-logs-btn" class="btn btn-dark-sm" title="Clear Console Log">
-              <i class="fa-solid fa-trash-can"></i> Clear
-            </button>
-          </div>
-          <div class="terminal-body">
-            <pre><code id="console-logs" class="language-json">// Awaiting API interactions...
-// Select, edit, add, or delete products above to inspect actual HTTP queries.</code></pre>
           </div>
         </div>
 
