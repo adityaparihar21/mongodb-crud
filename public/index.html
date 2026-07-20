@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Inventory API Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-logo">
+        <div class="logo-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="logo-text">
+          <h1>Product Inventory</h1>
+          <p>Mongoose & MongoDB CRUD Controller</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <button id="theme-toggle-btn" class="btn-theme-toggle">
+          <i id="theme-icon" class="fa-solid fa-sun"></i> <span>Light Theme</span>
+        </button>
+        <div class="status-pill status-online">
+          <span class="pulse-dot"></span>
+          <span class="status-text">Server: Online</span>
+        </div>
+        <div class="status-pill db-name">
+          <i class="fa-solid fa-database"></i>
+          <span>product_inventory</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Quick Stats -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-blue"><i class="fa-solid fa-box"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Total Products</span>
+          <h2 id="stat-total-products">0</h2>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon icon-green"><i class="fa-solid fa-coins"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Inventory Value</span>
+          <h2 id="stat-inventory-value">$0.00</h2>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon icon-yellow"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Out of Stock</span>
+          <h2 id="stat-out-of-stock">0</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <div class="workspace-grid">
+      
+      <!-- Left Column: Form -->
+      <aside class="form-container">
+        <div class="glass-card form-card">
+          <div class="card-header">
+            <h3 id="form-title"><i class="fa-solid fa-plus-circle"></i> Add New Product</h3>
+            <button id="cancel-edit-btn" class="btn btn-secondary btn-sm" style="display: none;">Cancel Edit</button>
+          </div>
+          <form id="product-form">
+            <input type="hidden" id="product-id">
+            
+            <div class="form-group">
+              <label for="product-name">Product Name *</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-tag input-icon"></i>
+                <input type="text" id="product-name" placeholder="e.g. Wireless Mouse" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="product-brand">Brand *</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-copyright input-icon"></i>
+                <input type="text" id="product-brand" placeholder="e.g. Logitech" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="product-category">Category *</label>
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-list input-icon"></i>
+                  <input type="text" id="product-category" placeholder="e.g. Electronics" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="product-price">Price ($) *</label>
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-dollar-sign input-icon"></i>
+                  <input type="number" id="product-price" placeholder="799" min="0" step="any" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="product-stock">Stock Quantity *</label>
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-warehouse input-icon"></i>
+                  <input type="number" id="product-stock" placeholder="50" min="0" step="1" required>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-block">
+              <i class="fa-solid fa-paper-plane"></i> Save Product
+            </button>
+          </form>
+        </div>
+
+        <!-- Quick Seeder Action -->
+        <div class="glass-card seed-card">
+          <div class="seed-content">
+            <h4>Need mock data?</h4>
+            <p>Populate the database with sample electronics to test instantly.</p>
+          </div>
+          <button id="seed-btn" class="btn btn-accent btn-sm">
+            <i class="fa-solid fa-seedling"></i> Load Samples
+          </button>
+        </div>
+      </aside>
+
+      <!-- Right Column: List and Inspector -->
+      <main class="content-container">
+        
+        <!-- Inventory Table Card -->
+        <div class="glass-card list-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-boxes-stacked"></i> Products List</h3>
+            <div class="search-actions">
+              <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search by name, brand, category...">
+              </div>
+              <button id="refresh-btn" class="btn btn-secondary btn-icon-only" title="Refresh List">
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>Product Details</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th class="actions-header">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <tr>
+                  <td colspan="5" class="loading-state">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading inventory...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Request/Response Log Inspector -->
+        <div class="glass-card terminal-card">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control close"></span>
+              <span class="control minimize"></span>
+              <span class="control expand"></span>
+            </div>
+            <div class="terminal-title">API Traffic Logs (Postman Console)</div>
+            <button id="clear-logs-btn" class="btn btn-dark-sm" title="Clear Console Log">
+              <i class="fa-solid fa-trash-can"></i> Clear
+            </button>
+          </div>
+          <div class="terminal-body">
+            <pre><code id="console-logs" class="language-json">// Awaiting API interactions...
+// Select, edit, add, or delete products above to inspect actual HTTP queries.</code></pre>
+          </div>
+        </div>
+
+        <!-- Test Invalid ID Tester -->
+        <div class="glass-card debug-card">
+          <h4><i class="fa-solid fa-bug"></i> Test Edge Cases & Validation Failures</h4>
+          <p>Test API behaviour for invalid inputs, matching Postman validation tests:</p>
+          <div class="debug-actions">
+            <button id="btn-test-invalid-id" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-skull"></i> Fetch Invalid Product ID
+            </button>
+            <button id="btn-test-missing-fields" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-circle-exclamation"></i> POST Missing Fields
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
