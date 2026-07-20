@@ -1,0 +1,174 @@
+{
+  "info": {
+    "_postman_id": "product-inventory-api-id",
+    "name": "Product Inventory API",
+    "description": "Postman Collection to test all CRUD operations and edge cases for the Product Inventory API running on http://localhost:5002",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Wireless Mouse\",\n  \"brand\": \"Logitech\",\n  \"category\": \"Electronics\",\n  \"price\": 799,\n  \"stock\": 50\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5002/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5002/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5002/products/REPLACE_WITH_PRODUCT_ID",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products",
+            "REPLACE_WITH_PRODUCT_ID"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 899,\n  \"stock\": 45\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5002/products/REPLACE_WITH_PRODUCT_ID",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products",
+            "REPLACE_WITH_PRODUCT_ID"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5002/products/REPLACE_WITH_PRODUCT_ID",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products",
+            "REPLACE_WITH_PRODUCT_ID"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid Product ID (Test)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5002/products/invalid_id_format_123",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products",
+            "invalid_id_format_123"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Missing Required Fields (Test)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Broken Product\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5002/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
