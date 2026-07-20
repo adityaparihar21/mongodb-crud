@@ -1,12 +1,10 @@
 const Product = require("../models/productModel");
 const mongoose = require("mongoose");
 
-// Create Product: POST /products
 const createProduct = async (req, res) => {
   try {
     const { name, category, price, stock, brand } = req.body;
     
-    // Explicitly validate for missing required fields
     if (!name || !category || price === undefined || stock === undefined || !brand) {
       return res.status(400).json({
         success: false,
@@ -31,7 +29,6 @@ const createProduct = async (req, res) => {
   }
 };
 
-// Get All Products: GET /products
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({}).sort({ createdAt: -1 });
@@ -45,12 +42,10 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-// Get Product by ID: GET /products/:id
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Check if ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -75,12 +70,10 @@ const getProductById = async (req, res) => {
   }
 };
 
-// Update Product: PUT /products/:id
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Check if ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -88,7 +81,6 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    // Run validators on update
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
       req.body,
@@ -116,12 +108,10 @@ const updateProduct = async (req, res) => {
   }
 };
 
-// Delete Product: DELETE /products/:id
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Check if ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
